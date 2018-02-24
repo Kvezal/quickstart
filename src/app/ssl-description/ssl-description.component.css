@@ -1,0 +1,77 @@
+.ssl-description {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2;
+
+  box-sizing: border-box;
+  width: 300px;
+  min-height: 180px;
+  padding-top: 15px;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 14px;
+  color: #626262;
+
+  background-color: #ffffff;
+  border: 2px solid #e9e9e9;
+  border-radius: 3px;
+}
+
+.ssl-description--top {
+  box-shadow: 2px -11px 10px -2px #929da7;
+}
+
+.ssl-description--bottom {
+  box-shadow: 2px 11px 10px -2px #929da7;
+}
+
+.ssl-description::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+
+  display: block;
+  width: 20px;
+  height: 20px;
+
+  border-bottom: 2px solid #e9e9e9;
+  border-right: 2px solid #e9e9e9;
+}
+
+.ssl-description--top::before {
+  bottom: -11px;
+  transform: rotate(45deg);
+}
+
+.ssl-description--bottom::before {
+  top: -10.8px;
+  transform: rotate(-135deg);
+}
+
+.ssl-description::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+
+  display: block;
+  width: 0;
+  height: 0;
+
+  border: 8px solid #ffffff;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.ssl-description--top::after {
+  bottom: -8px;
+  transform: rotate(45deg);
+}
+
+.ssl-description--bottom::after {
+   top: -8.4px;
+   transform: rotate(-135deg);
+ }

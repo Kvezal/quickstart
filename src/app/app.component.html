@@ -5,7 +5,7 @@
       <table *ngIf="pricelist">
         <tbody>
           <tr *ngFor="let item of pricelist">
-            <td><a>{{ item.name }}</a></td>
+            <td><a (click)="linkClickHandler($event)" id="{{item.id}}">{{ item.name }}</a></td>
             <td> от {{ item.price.period[0].cost }} {{ item.price.currency }}</td>
           </tr>
         </tbody>
@@ -13,3 +13,4 @@
     </div>
   </div>
 </div>
+<app-ssl-description [properties]="properties"></app-ssl-description>
