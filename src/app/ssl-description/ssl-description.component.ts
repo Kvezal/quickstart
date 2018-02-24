@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, ViewChild, Output} from '@angular/core';
+import {Component, Input, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-ssl-description',
@@ -19,54 +19,54 @@ export class SslDescriptionComponent {
     }
   };
 
+  isTopPosition: boolean;
+
   getCoords() {
     if (!this.element) {
       return {left: '-9999px', top: '-9999px'};
     }
 
-    this.element.nativeElement.innerHTML = this.prepareData(this.properties.description);
+    // this.element.nativeElement.innerHTML = this.prepareData(this.properties.description);
     const modalBottomPosition = this.properties.coords.bottom + this.element.nativeElement.offsetHeight;
 
-    let offset = 15;
-    let isTopPosition = false;
-    if (modalBottomPosition > window.innerHeight) {
-      offset = -(this.element.nativeElement.offsetHeight + 35);
-      isTopPosition = true;
-    }
-    this.addClass(isTopPosition);
+    this.isTopPosition = (modalBottomPosition > window.innerHeight);
+    let offset = (this.isTopPosition) ? -(this.element.nativeElement.offsetHeight + 35) : 15;
 
     let modalPosition = window.pageYOffset + this.properties.coords.bottom + offset + this.element.nativeElement.offsetHeight;
-    if (!isTopPosition) {
+    if (!this.isTopPosition) {
      modalPosition -= this.element.nativeElement.offsetHeight;
     }
 
+    let position = 'absolute';
+    let top = window.pageYOffset + this.properties.coords.bottom + offset + 'px';
+    let bottom = 'auto';
+    let left = this.properties.coords.left + 'px';
+
     if (modalPosition < pageYOffset) {
-      this.element.nativeElement.style.top = '15px';
-      this.element.nativeElement.style.bottom = 'auto';
-      this.element.nativeElement.style.left = this.properties.coords.left + 'px';
-      this.element.nativeElement.style.position = 'fixed';
-      return;
+      position = 'fixed';
+      top = '15px';
+      bottom = 'auto';
     }
     if (modalPosition > pageYOffset + innerHeight) {
-      this.element.nativeElement.style.top =  'auto';
-      this.element.nativeElement.style.bottom = '15px';
-      this.element.nativeElement.style.left = this.properties.coords.left + 'px';
-      this.element.nativeElement.style.position = 'fixed';
-      return;
+      position = 'fixed';
+      top = 'auto';
+      bottom = '15px';
     }
 
-    this.element.nativeElement.style.top =  window.pageYOffset + this.properties.coords.bottom + offset + 'px';
-    this.element.nativeElement.style.bottom = 'auto';
-    this.element.nativeElement.style.left = this.properties.coords.left + 'px';
-    this.element.nativeElement.style.position = 'absolute';
-  }
-
-  addClass(state: boolean) {
-    const newClass = (state) ? 'ssl-description--top' : 'ssl-description--bottom';
-    this.element.nativeElement.className = `ssl-description ${newClass}`;
+    return {
+      position,
+      top,
+      bottom,
+      left
+    };
   }
 
   prepareData(data: string) {
     return data.replace(/<div>__localname__<\/div>|(<script[A-zА-я0-9]*>|<\/script>)*/ig, '');
+  }
+
+  addClass() {
+    const newClass = (this.isTopPosition) ? 'ssl-description--top' : 'ssl-description--bottom';
+    this.element.nativeElement.className = `ssl-description ${newClass}`;
   }
 }

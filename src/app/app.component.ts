@@ -37,9 +37,10 @@ export class AppComponent implements OnInit  {
     this.appService.getPriceList().subscribe(d => {
       this.pricelist = d.pricelist;
     });
+    // window.addEventListener('wheel', () => this.getProperties());
     setInterval(() => {
       this.getProperties();
-    }, 100);
+    }, 250);
   }
 
   linkClickHandler(event: any) {
@@ -51,13 +52,15 @@ export class AppComponent implements OnInit  {
   }
 
   getProperties() {
+    let description = '';
     let coords = {
       top: -9999,
-      bottom: -9999,
+      bottom: 'auto',
       left: -9999
     };
 
-    if (!!this.currentElement) {
+    if (this.currentElement) {
+      description = this.currentSsl.description_ru || this.currentSsl.description || '';
       const elementCoords = this.currentElement.getBoundingClientRect();
       coords = {
         top: elementCoords.top,
@@ -67,7 +70,7 @@ export class AppComponent implements OnInit  {
     }
 
     this.properties = {
-      description: this.currentSsl.description_ru || this.currentSsl.description || '',
+      description,
       isOpenDescription: !!this.currentElement,
       coords
     };
