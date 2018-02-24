@@ -37,7 +37,7 @@ export class AppComponent implements OnInit  {
     this.appService.getPriceList().subscribe(d => {
       this.pricelist = d.pricelist;
     });
-    // window.addEventListener('wheel', () => this.getProperties());
+
     setInterval(() => {
       this.getProperties();
     }, 250);
@@ -48,14 +48,13 @@ export class AppComponent implements OnInit  {
     if (this.currentElement) {
       this.currentSsl = this.pricelist.find((item: any) => item.id === this.currentElement.id);
     }
-    this.getProperties();
   }
 
   getProperties() {
     let description = '';
     let coords = {
       top: -9999,
-      bottom: 'auto',
+      bottom: -9999,
       left: -9999
     };
 
