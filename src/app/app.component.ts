@@ -22,9 +22,9 @@ export class AppComponent implements OnInit  {
     description: '',
     isOpenDescription: false,
     coords: {
-      top: -9999,
-      bottom: -9999,
-      left: -9999
+      top: 0,
+      bottom: 0,
+      left: 0
     }
   };
 
@@ -51,27 +51,21 @@ export class AppComponent implements OnInit  {
   }
 
   getProperties() {
-    let description = '';
-    let coords = {
-      top: -9999,
-      bottom: -9999,
-      left: -9999
-    };
+    if (!this.currentElement) {
+      this.properties.isOpenDescription = false;
+      return;
+    }
 
-    if (this.currentElement) {
-      description = this.currentSsl.description_ru || this.currentSsl.description || '';
-      const elementCoords = this.currentElement.getBoundingClientRect();
-      coords = {
+    const elementCoords = this.currentElement.getBoundingClientRect();
+
+    this.properties = {
+      description: this.currentSsl.description_ru || this.currentSsl.description || '',
+      isOpenDescription: !!this.currentElement,
+      coords: {
         top: elementCoords.top,
         bottom: elementCoords.bottom,
         left: elementCoords.left
-      };
-    }
-
-    this.properties = {
-      description,
-      isOpenDescription: !!this.currentElement,
-      coords
+      }
     };
   }
 }

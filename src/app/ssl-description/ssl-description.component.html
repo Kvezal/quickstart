@@ -1,5 +1,6 @@
 <div
   class="ssl-description"
+  *ngIf="properties.isOpenDescription"
   [innerHTML]="prepareData()"
   #SSLDescription>
 </div>

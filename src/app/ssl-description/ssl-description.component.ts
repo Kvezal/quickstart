@@ -22,8 +22,10 @@ export class SslDescriptionComponent implements AfterViewChecked{
   isTopPosition: boolean;
 
   ngAfterViewChecked() {
-    this.getCoords(this.modal.nativeElement);
-    this.addClass(this.modal.nativeElement);
+    if (this.modal) {
+      this.getCoords(this.modal.nativeElement);
+      this.addClass(this.modal.nativeElement);
+    }
   }
 
   getCoords(modal: HTMLDivElement) {
