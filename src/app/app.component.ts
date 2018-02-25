@@ -38,9 +38,8 @@ export class AppComponent implements OnInit  {
       this.pricelist = d.pricelist;
     });
 
-    setInterval(() => {
-      this.getProperties();
-    }, 100);
+    window.addEventListener('scroll', (event) => this.getProperties());
+    window.addEventListener('resize', (event) => this.getProperties());
   }
 
   linkClickHandler(event: any) {
@@ -48,6 +47,7 @@ export class AppComponent implements OnInit  {
     if (this.currentElement) {
       this.currentSsl = this.pricelist.find((item: any) => item.id === this.currentElement.id);
     }
+    this.getProperties();
   }
 
   getProperties() {

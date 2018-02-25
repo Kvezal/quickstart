@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-ssl-description',
@@ -6,7 +6,9 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./ssl-description.component.css']
 })
 
-export class SslDescriptionComponent {
+export class SslDescriptionComponent implements AfterViewChecked{
+  @ViewChild('SSLDescription') modal: ElementRef;
+
   @Input() properties: {
     description: string,
     isOpenDescription: boolean,
@@ -18,6 +20,11 @@ export class SslDescriptionComponent {
   };
 
   isTopPosition: boolean;
+
+  ngAfterViewChecked() {
+    this.getCoords(this.modal.nativeElement);
+    this.addClass(this.modal.nativeElement);
+  }
 
   getCoords(modal: HTMLDivElement) {
     const modalBottomPosition = this.properties.coords.bottom + modal.offsetHeight;
@@ -46,12 +53,10 @@ export class SslDescriptionComponent {
       bottom = '15px';
     }
 
-    return {
-      position,
-      top,
-      bottom,
-      left
-    };
+    modal.style.position = position;
+    modal.style.top = top;
+    modal.style.bottom = bottom;
+    modal.style.left = left;
   }
 
   prepareData() {
