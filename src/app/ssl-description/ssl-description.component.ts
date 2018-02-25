@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-ssl-description',
@@ -7,8 +7,6 @@ import {Component, Input, ElementRef, ViewChild} from '@angular/core';
 })
 
 export class SslDescriptionComponent {
-  @ViewChild('SSLDescription') element: ElementRef;
-
   @Input() properties: {
     description: string,
     isOpenDescription: boolean,
@@ -21,20 +19,15 @@ export class SslDescriptionComponent {
 
   isTopPosition: boolean;
 
-  getCoords() {
-    if (!this.element) {
-      return {left: '-9999px', top: '-9999px'};
-    }
-
-    // this.element.nativeElement.innerHTML = this.prepareData(this.properties.description);
-    const modalBottomPosition = this.properties.coords.bottom + this.element.nativeElement.offsetHeight;
+  getCoords(modal: HTMLDivElement) {
+    const modalBottomPosition = this.properties.coords.bottom + modal.offsetHeight;
 
     this.isTopPosition = (modalBottomPosition > window.innerHeight);
-    let offset = (this.isTopPosition) ? -(this.element.nativeElement.offsetHeight + 35) : 15;
+    let offset = (this.isTopPosition) ? -(modal.offsetHeight + 35) : 15;
 
-    let modalPosition = window.pageYOffset + this.properties.coords.bottom + offset + this.element.nativeElement.offsetHeight;
-    if (!this.isTopPosition) {
-     modalPosition -= this.element.nativeElement.offsetHeight;
+    let modalPosition = window.pageYOffset + this.properties.coords.bottom + offset;
+    if (this.isTopPosition) {
+      modalPosition += modal.offsetHeight;
     }
 
     let position = 'absolute';
@@ -61,12 +54,13 @@ export class SslDescriptionComponent {
     };
   }
 
-  prepareData(data: string) {
-    return data.replace(/<div>__localname__<\/div>|(<script[A-zА-я0-9]*>|<\/script>)*/ig, '');
+  prepareData() {
+    const regEx = new RegExp(/<div>__localname__<\/div>/, 'ig');
+    return this.properties.description.replace(regEx, '');
   }
 
-  addClass() {
+  addClass(modal: HTMLDivElement) {
     const newClass = (this.isTopPosition) ? 'ssl-description--top' : 'ssl-description--bottom';
-    this.element.nativeElement.className = `ssl-description ${newClass}`;
+    modal.className = `ssl-description ${newClass}`;
   }
 }

@@ -1,6 +1,7 @@
 <div
   class="ssl-description"
-  #SSLDescription [ngStyle]="getCoords()"
-  [ngClass]="addClass()"
-  [innerHTML]="prepareData(properties.description)">
+  [innerHTML]="prepareData()"
+  #SSLDescription
+  [ngStyle]="getCoords(SSLDescription)"
+  [ngClass]="addClass(SSLDescription)">
 </div>

@@ -40,7 +40,7 @@ export class AppComponent implements OnInit  {
 
     setInterval(() => {
       this.getProperties();
-    }, 250);
+    }, 100);
   }
 
   linkClickHandler(event: any) {
