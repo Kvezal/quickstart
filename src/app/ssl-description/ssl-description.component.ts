@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, Input, Renderer2, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-ssl-description',
@@ -20,6 +20,8 @@ export class SslDescriptionComponent implements AfterViewChecked{
   };
 
   isTopPosition: boolean;
+
+  constructor(private renderer: Renderer2) {}
 
   ngAfterViewChecked() {
     if (this.modal) {
@@ -55,10 +57,10 @@ export class SslDescriptionComponent implements AfterViewChecked{
       bottom = '15px';
     }
 
-    modal.style.position = position;
-    modal.style.top = top;
-    modal.style.bottom = bottom;
-    modal.style.left = left;
+    this.renderer.setStyle(modal, 'position', position);
+    this.renderer.setStyle(modal, 'top', top);
+    this.renderer.setStyle(modal, 'bottom', bottom);
+    this.renderer.setStyle(modal, 'left', left);
   }
 
   prepareData() {
@@ -68,6 +70,12 @@ export class SslDescriptionComponent implements AfterViewChecked{
 
   addClass(modal: HTMLDivElement) {
     const newClass = (this.isTopPosition) ? 'ssl-description--top' : 'ssl-description--bottom';
-    modal.className = `ssl-description ${newClass}`;
+    if (newClass === 'ssl-description--top') {
+      this.renderer.removeClass(modal, 'ssl-description--bottom');
+    }
+    if (newClass === 'ssl-description--bottom') {
+      this.renderer.removeClass(modal, 'ssl-description--top');
+    }
+    this.renderer.addClass(modal, newClass);
   }
 }
